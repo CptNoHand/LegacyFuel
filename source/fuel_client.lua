@@ -353,3 +353,17 @@ if Config.EnableHUD then
 		end
 	end)
 end
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        local playerped = PlayerPedId()
+        if IsPedInAnyVehicle(playerped) then
+            local vehfueltank = GetVehiclePedIsIn(playerped)
+            local fueltank = GetFuel(vehfueltank)
+            if not inBlacklisted and fueltank < 5 then
+                SetVehicleEngineOn(vehfueltank, false, true, true)
+            end
+        end
+    end
+end)
